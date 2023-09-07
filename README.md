@@ -23,6 +23,9 @@ Welcome to WhatsApp Clone App, a complete imitation of the original WhatsApp bui
 🗃️ State Management: Redux
 🛠️ Tooling: Expo for development ease
 🚀 Get Started
+
+
+
 1️⃣ Clone the Repo
 
 bash
