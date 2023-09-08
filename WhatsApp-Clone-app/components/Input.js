@@ -13,11 +13,15 @@ const Input = (props) => {
             style={styles.icon}
           />
         )}
-        <TextInput style={styles.input} />
+        <TextInput
+          {...props}
+          style={styles.input}
+          onChangeText={(text) => props.onInputChanged(props.id, text)}
+        />
       </View>
       {props.errorText && (
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{props.errorText}</Text>
+          <Text style={styles.errorText}>{props.errorText[0]}</Text>
         </View>
       )}
     </View>
