@@ -49,10 +49,7 @@ npm install
 
 4️⃣ Fire Up the Development Server
 
-bash
-Copy code
-npm start
-Now head over to http://localhost:3000 and see your app in action!
+npx expo start
 
 
 💡 Note: The features in this app are for demonstration purposes and may not completely replicate all functionalities of the real WhatsApp.
