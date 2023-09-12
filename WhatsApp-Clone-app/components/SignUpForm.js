@@ -1,10 +1,12 @@
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useReducer, useState, useEffect } from "react";
 import Input from "../components/Input";
 import SubmitButton from "../components/SubmitButton";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import { validateInput } from "../utils/actions/formActions";
 import { reducer } from "../utils/reducers/formReducer";
 import { signUp } from "../utils/actions/authActions";
+import { ActivityIndicator, Alert, StyleSheet } from "react-native";
+import colors from "../constants/colors";
 
 const initialState = {
   inputValues: {
@@ -19,11 +21,12 @@ const initialState = {
     email: false,
     password: false,
   },
-
   formIsValid: false,
 };
 
 const SignUpForm = (props) => {
+  const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const [formState, dispatchFormState] = useReducer(reducer, initialState);
 
   const inputChangedHandler = useCallback(
@@ -34,13 +37,25 @@ const SignUpForm = (props) => {
     [dispatchFormState]
   );
 
-  const authHandler = () => {
-    signUp(
-      formState.inputValues.firstName,
-      formState.inputValues.lastName,
-      formState.inputValues.email,
-      formState.inputValues.password
-    );
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An error occurred", error, [{ text: "Okay" }]);
+    }
+  }, [error]);
+
+  const authHandler = async () => {
+    try {
+      setIsLoading(true);
+      await signUp(
+        formState.inputValues.firstName,
+        formState.inputValues.lastName,
+        formState.inputValues.email,
+        formState.inputValues.password
+      );
+    } catch (error) {
+      setError(error.message);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -54,7 +69,6 @@ const SignUpForm = (props) => {
         onInputChanged={inputChangedHandler}
         errorText={formState.inputValidities["firstName"]}
       />
-
       <Input
         id="lastName"
         label="Last name"
@@ -64,7 +78,6 @@ const SignUpForm = (props) => {
         onInputChanged={inputChangedHandler}
         errorText={formState.inputValidities["lastName"]}
       />
-
       <Input
         id="email"
         label="Email"
@@ -75,7 +88,6 @@ const SignUpForm = (props) => {
         keyboardType="email-address"
         errorText={formState.inputValidities["email"]}
       />
-
       <Input
         id="password"
         label="Password"
@@ -86,13 +98,20 @@ const SignUpForm = (props) => {
         onInputChanged={inputChangedHandler}
         errorText={formState.inputValidities["password"]}
       />
-
-      <SubmitButton
-        title="Sign up"
-        onPress={authHandler}
-        style={{ marginTop: 20 }}
-        disabled={!formState.formIsValid}
-      />
+      {isLoading ? (
+        <ActivityIndicator
+          size={"small"}
+          color={colors.primary}
+          style={{ marginTop: 10 }}
+        />
+      ) : (
+        <SubmitButton
+          title="Sign up"
+          onPress={authHandler}
+          style={{ marginTop: 20 }}
+          disabled={!formState.formIsValid}
+        />
+      )}
     </>
   );
 };

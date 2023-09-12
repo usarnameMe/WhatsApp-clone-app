@@ -4,7 +4,11 @@ import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import AppNavigator from "./navigation/AppNavigator";
 
-LogBox.ignoreLogs(["@firebase/auth: Auth"]);
+LogBox.ignoreLogs([
+  "@firebase/auth: Auth",
+  "Possible Unhandled Promise Rejection",
+  "AsyncStorage has been extracted",
+]);
 
 export default function App() {
   const [appIsLoaded, setAppIsLoaded] = useState(false);
