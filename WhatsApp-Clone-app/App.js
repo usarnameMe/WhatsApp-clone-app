@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet, SafeAreaView, LogBox } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import AppNavigator from "./navigation/AppNavigator";
+
+LogBox.ignoreLogs(["@firebase/auth: Auth"]);
 
 export default function App() {
   const [appIsLoaded, setAppIsLoaded] = useState(false);

@@ -2,13 +2,9 @@ import React, { useCallback, useReducer } from "react";
 import Input from "../components/Input";
 import SubmitButton from "../components/SubmitButton";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import validate from "validate.js";
 import { validateInput } from "../utils/actions/formActions";
 import { reducer } from "../utils/reducers/formReducer";
 import { signUp } from "../utils/actions/authActions";
-import { getFirebaseApp } from "../utils/firebaseHelper";
-
-console.log(getFirebaseApp());
 
 const initialState = {
   inputValues: {
