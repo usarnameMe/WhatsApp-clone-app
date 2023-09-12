@@ -6,10 +6,6 @@ import { validateInput } from "../utils/actions/formActions";
 import { reducer } from "../utils/reducers/formReducer";
 
 const initialState = {
-  inputValues: {
-    email: "",
-    password: "",
-  },
   inputValidities: {
     firstName: false,
     lastName: false,
@@ -21,7 +17,7 @@ const SignInForm = (props) => {
   const inputChangedHandler = useCallback(
     (inputId, inputValue) => {
       const result = validateInput(inputId, inputValue);
-      dispatchFormState({ inputId, validationResult: result, inputValue });
+      dispatchFormState({ inputId, validationResult: result });
     },
     [dispatchFormState]
   );

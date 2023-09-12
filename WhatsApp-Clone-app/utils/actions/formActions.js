@@ -1,4 +1,4 @@
-import { validatePassword, validateEmail, validateString } from "../validation";
+import { validateEmail, validatePassword, validateString } from "../Validation";
 
 export const validateInput = (inputId, inputValue) => {
   if (inputId === "firstName" || inputId === "lastName") {
