@@ -3,6 +3,8 @@ import { StyleSheet, SafeAreaView, LogBox } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import AppNavigator from "./navigation/AppNavigator";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 LogBox.ignoreLogs([
   "@firebase/auth: Auth",
@@ -39,9 +41,11 @@ export default function App() {
   if (!fontsLoaded) return null;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <AppNavigator />
-    </SafeAreaView>
+    <Provider store={store}>
+      <SafeAreaView style={styles.container} onLayout={onLayout}>
+        <AppNavigator />
+      </SafeAreaView>
+    </Provider>
   );
 }
 

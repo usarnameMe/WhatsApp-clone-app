@@ -10,12 +10,13 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
-    "@react-native-async-storage/async-storage": "^1.18.2",
+    "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-masked-view/masked-view": "0.2.9",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@react-navigation/stack": "^6.3.17",
+    "@reduxjs/toolkit": "^1.9.5",
     "expo": "~49.0.8",
     "expo-font": "~11.4.0",
     "expo-splash-screen": "~0.20.5",
@@ -29,6 +30,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-snackbar": "^2.6.2",
     "react-native-vector-icons": "^10.0.0",
+    "react-redux": "^8.1.2",
     "validate.js": "^0.13.1"
   },
   "devDependencies": {
