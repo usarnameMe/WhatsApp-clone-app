@@ -12,13 +12,19 @@ const authSlice = createSlice({
       const { payload } = action;
       state.token = payload.token;
       state.userData = payload.userData;
-      console.log(state);
+      state.didTryAutoLogin = true;
     },
     setDidTryAutoLogin: (state, action) => {
       state.didTryAutoLogin = true;
     },
+    logout: (state, action) => {
+      state.token = null;
+      state.userData = null;
+      state.didTryAutoLogin = false;
+    },
   },
 });
 export const authenticate = authSlice.actions.authenticate;
+export const logout = authSlice.actions.logout;
 export const setDidTryAutoLogin = authSlice.actions.setDidTryAutoLogin;
 export default authSlice.reducer;

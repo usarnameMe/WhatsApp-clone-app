@@ -12,7 +12,7 @@ LogBox.ignoreLogs([
   "Possible Unhandled Promise Rejection",
   "AsyncStorage has been extracted",
 ]);
-// AsyncStorage.clear();
+AsyncStorage.clear();
 
 export default function App() {
   const [appIsLoaded, setAppIsLoaded] = useState(false);

@@ -8,6 +8,9 @@ import { child, getDatabase, ref, set } from "firebase/database";
 import { authenticate } from "../../store/authSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getUserData } from "./userActions";
+import { logout } from "../../store/authSlice";
+
+let timer;
 
 export const signUp = (firstName, lastName, email, password) => {
   return async (dispatch) => {
@@ -24,6 +27,8 @@ export const signUp = (firstName, lastName, email, password) => {
       const { accessToken, expirationTime } = stsTokenManager;
 
       const expiryDate = new Date(expirationTime);
+      const timeNow = new Date();
+      const millisecondsUntilExpiry = expiryDate - timeNow;
 
       const userData = await createUser(firstName, lastName, email, uid);
 
@@ -44,6 +49,14 @@ export const signUp = (firstName, lastName, email, password) => {
   };
 };
 
+export const userLogout = () => {
+  return async (dispatch) => {
+    await AsyncStorage.clear();
+    clearTimeout(timer);
+    dispatch(logout());
+  };
+};
+
 export const signIn = (email, password) => {
   return async (dispatch) => {
     const app = getFirebaseApp();
@@ -60,6 +73,9 @@ export const signIn = (email, password) => {
 
       dispatch(authenticate({ token: accessToken, userData }));
       saveDataToStorage(accessToken, uid, expiryDate);
+      timer = setTimeout(() => {
+        dispatch(userLogout());
+      }, 3000);
     } catch (error) {
       const errorCode = error.code;
 
