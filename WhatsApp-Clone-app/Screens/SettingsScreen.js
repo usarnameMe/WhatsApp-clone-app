@@ -22,12 +22,17 @@ const SettingsScreen = (props) => {
 
   const userData = useSelector((state) => state.auth.userData);
 
+  const firstName = userData.firstName || "";
+  const lastName = userData.lastName || "";
+  const email = userData.email || "";
+  const about = userData.about || "";
+
   const initialState = {
     inputValues: {
-      firstName: userData.firstName || "",
-      lastName: userData.lastName || "",
-      email: userData.email || "",
-      about: userData.about || "",
+      firstName,
+      lastName,
+      email,
+      about,
     },
     inputValidities: {
       firstName: undefined,
@@ -48,7 +53,7 @@ const SettingsScreen = (props) => {
     [dispatchFormState]
   );
 
-  const saveHandler = async () => {
+  const saveHandler = useCallback(async () => {
     const updatedValues = formState.inputValues;
     try {
       setIsLoading(true);
@@ -64,6 +69,17 @@ const SettingsScreen = (props) => {
     } finally {
       setIsLoading(false);
     }
+  }, [formState, dispatch]);
+
+  const hasChanges = () => {
+    const currentValues = formState.inputValues;
+
+    return (
+      currentValues.firstName != firstName ||
+      currentValues.lastName != lastName ||
+      currentValues.email != email ||
+      currentValues.about != currentValues.about
+    );
   };
 
   return (
@@ -128,12 +144,14 @@ const SettingsScreen = (props) => {
           style={{ marginTop: 20 }}
         />
       ) : (
-        <SubmitButton
-          title="Save"
-          onPress={saveHandler}
-          style={{ marginTop: 30 }}
-          disabled={!formState.formIsValid}
-        />
+        hasChanges() && (
+          <SubmitButton
+            title="Save"
+            onPress={saveHandler}
+            style={{ marginTop: 30 }}
+            disabled={!formState.formIsValid}
+          />
+        )
       )}
 
       <SubmitButton
