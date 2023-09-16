@@ -5,12 +5,14 @@ import { useFonts } from "expo-font";
 import AppNavigator from "./navigation/AppNavigator";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 LogBox.ignoreLogs([
   "@firebase/auth: Auth",
   "Possible Unhandled Promise Rejection",
   "AsyncStorage has been extracted",
 ]);
+// AsyncStorage.clear();
 
 export default function App() {
   const [appIsLoaded, setAppIsLoaded] = useState(false);
