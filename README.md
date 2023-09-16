@@ -1,5 +1,7 @@
 👋 Welcome to WhatsApp Clone App 📱
+
 🚀 Introduction
+
 Welcome to WhatsApp Clone App, a complete imitation of the original WhatsApp built to demonstrate the power of modern web technologies. This app lets you dive into an engaging and real-time messaging experience, featuring functionalities like voice and video calls, group chats, media sharing, and more.
 
 🌈 Features
