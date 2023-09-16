@@ -14,6 +14,7 @@ const MainNavigator = () => {
         component={TabNavigator}
         options={{
           headerTitle: "",
+          headerShadowVisible: false,
         }}
       />
       <Stack.Screen
