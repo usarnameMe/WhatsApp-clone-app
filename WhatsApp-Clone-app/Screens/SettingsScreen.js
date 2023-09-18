@@ -88,15 +88,8 @@ const SettingsScreen = (props) => {
   return (
     <PageContainer styles={styles.container}>
       <PageTitle text="Settings" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
       <ScrollView contentContainerStyle={styles.formContainer}>
-        <ProfileImage
-          size={80}
-          userId={userData.userId}
-          uri={userData.profilePicture}
-        />
+        <ProfileImage size={80} />
         <Input
           id="firstName"
           label="First name"
@@ -164,86 +157,7 @@ const SettingsScreen = (props) => {
               disabled={!formState.formIsValid}
             />
           )
-=======
-=======
->>>>>>> parent of c61c084 (profile picture)
-=======
->>>>>>> parent of c61c084 (profile picture)
-      <Input
-        id="firstName"
-        label="First name"
-        icon="user-o"
-        iconPack={FontAwesome}
-        autoCapitalize="none"
-        onInputChanged={inputChangedHandler}
-        errorText={formState.inputValidities["firstName"]}
-        initialValue={userData.firstName}
-      />
-      <Input
-        id="lastName"
-        label="Last name"
-        icon="user-o"
-        iconPack={FontAwesome}
-        autoCapitalize="none"
-        onInputChanged={inputChangedHandler}
-        errorText={formState.inputValidities["lastName"]}
-        initialValue={userData.lastName}
-      />
-      <Input
-        id="email"
-        label="Email"
-        icon="mail"
-        iconPack={Feather}
-        autoCapitalize="none"
-        onInputChanged={inputChangedHandler}
-        keyboardType="email-address"
-        errorText={formState.inputValidities["email"]}
-        initialValue={userData.email}
-      />
-      <Input
-        id="about"
-        label="About"
-        icon="user-o"
-        iconPack={FontAwesome}
-        autoCapitalize="none"
-        onInputChanged={inputChangedHandler}
-        errorText={formState.inputValidities["about"]}
-        initialValue={userData.about}
-      />
-      <View
-        style={{
-          marginTop: 20,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {showSuccessMessage && (
-          <Text style={styles.successMessage}>Saved!</Text>
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of c61c084 (profile picture)
-=======
->>>>>>> parent of c61c084 (profile picture)
-=======
->>>>>>> parent of c61c084 (profile picture)
         )}
-      </View>
-      {isLoading ? (
-        <ActivityIndicator
-          size={"small"}
-          color={colors.primary}
-          style={{ marginTop: 20 }}
-        />
-      ) : (
-        hasChanges() && (
-          <SubmitButton
-            title="Save"
-            onPress={saveHandler}
-            style={{ marginTop: 30 }}
-            disabled={!formState.formIsValid}
-          />
-        )
-      )}
 
       <SubmitButton
         title="Logout"
