@@ -4,11 +4,11 @@ import { FontAwesome } from "@expo/vector-icons";
 
 import userImage from "../assets/images/userImage.png";
 import colors from "../constants/colors";
+import { FontAwesome } from "@expo/vector-icons";
 import {
   launchImagePicker,
   uploadImageAsync,
 } from "../utils/imagePickerHelper";
-import { updateSignedInUserData } from "../utils/actions/authActions";
 
 const ProfileImage = (props) => {
   const source = props.uri ? { uri: props.uri } : userImage;
@@ -22,19 +22,11 @@ const ProfileImage = (props) => {
       const tempUri = await launchImagePicker();
 
       if (!tempUri) return;
-
-      // Upload the image
       const uploadUrl = await uploadImageAsync(tempUri);
-
-      if (!uploadUrl) {
-        throw new Error("Could not upload image");
-      }
-
-      await updateSignedInUserData(userId, { profilePicture: uploadUrl });
-
+      if (!uploadUrl) throw new Error("Could not upload image");
       setImage({ uri: uploadUrl });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

@@ -25,7 +25,6 @@ const checkMediaPermissions = async () => {
   if (Platform.OS !== "web") {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
-
     if (permissionResult.granted === false) {
       throw new Error("We need permission to access your photos");
     }
