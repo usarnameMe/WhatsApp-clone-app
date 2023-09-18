@@ -1,34 +1,21 @@
-import React, { useState } from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import React from "react";
+import { Image, StyleSheet, View } from "react-native";
 import userImage from "../assets/images/userImage.png";
 import colors from "../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
-import { launchImagePicker } from "../utils/imagePickerHelper";
 
 const ProfileImage = (props) => {
-  const source = props.uri ? { uri: props.uri } : userImage;
-  const [image, setImage] = useState(source);
-
-  const pickImage = async () => {
-    try {
-      const tempUri = await launchImagePicker();
-
-      if (!tempUri) return;
-      setImage({ uri: tempUri });
-    } catch (error) {}
-  };
-
   return (
-    <TouchableOpacity onPress={pickImage}>
+    <View>
       <Image
-        source={image}
+        source={userImage}
         style={{ ...styles.image, width: props.size, height: props.size }}
       />
 
       <View style={styles.pencil}>
         <FontAwesome name="pencil" size={15} color="black" />
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
