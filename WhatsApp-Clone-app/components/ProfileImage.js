@@ -1,21 +1,57 @@
-import React from "react";
-import { Image, StyleSheet, View } from "react-native";
-import userImage from "../assets/images/userImage.png";
-import colors from "../constants/colors";
+import React, { useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 
+import userImage from "../assets/images/userImage.png";
+import colors from "../constants/colors";
+import {
+  launchImagePicker,
+  uploadImageAsync,
+} from "../utils/imagePickerHelper";
+import { updateSignedInUserData } from "../utils/actions/authActions";
+
 const ProfileImage = (props) => {
+  const source = props.uri ? { uri: props.uri } : userImage;
+
+  const [image, setImage] = useState(source);
+
+  const userId = props.userId;
+
+  const pickImage = async () => {
+    try {
+      const tempUri = await launchImagePicker();
+
+      if (!tempUri) return;
+
+      // Upload the image
+      const uploadUrl = await uploadImageAsync(tempUri);
+
+      if (!uploadUrl) {
+        throw new Error("Could not upload image");
+      }
+
+      await updateSignedInUserData(userId, { profilePicture: uploadUrl });
+
+      setImage({ uri: uploadUrl });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <View>
+    <TouchableOpacity onPress={pickImage}>
       <Image
-        source={userImage}
-        style={{ ...styles.image, width: props.size, height: props.size }}
+        style={{
+          ...styles.image,
+          ...{ width: props.size, height: props.size },
+        }}
+        source={image}
       />
 
-      <View style={styles.pencil}>
+      <View style={styles.editIconContainer}>
         <FontAwesome name="pencil" size={15} color="black" />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -25,10 +61,10 @@ const styles = StyleSheet.create({
     borderColor: colors.grey,
     borderWidth: 1,
   },
-  pencil: {
+  editIconContainer: {
     position: "absolute",
-    bottom: -5,
-    right: -5,
+    bottom: 0,
+    right: 0,
     backgroundColor: colors.lightGrey,
     borderRadius: 20,
     padding: 8,
