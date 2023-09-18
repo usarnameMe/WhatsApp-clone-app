@@ -90,6 +90,7 @@ const SettingsScreen = (props) => {
       <PageTitle text="Settings" />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <ScrollView contentContainerStyle={styles.formContainer}>
         <ProfileImage
           size={80}
@@ -166,6 +167,8 @@ const SettingsScreen = (props) => {
 =======
 =======
 >>>>>>> parent of c61c084 (profile picture)
+=======
+>>>>>>> parent of c61c084 (profile picture)
       <Input
         id="firstName"
         label="First name"
@@ -217,6 +220,9 @@ const SettingsScreen = (props) => {
         {showSuccessMessage && (
           <Text style={styles.successMessage}>Saved!</Text>
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of c61c084 (profile picture)
+=======
 >>>>>>> parent of c61c084 (profile picture)
 =======
 >>>>>>> parent of c61c084 (profile picture)
