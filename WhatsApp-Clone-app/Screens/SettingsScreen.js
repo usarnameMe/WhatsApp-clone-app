@@ -16,7 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { isLoading } from "expo-font";
 import colors from "../constants/colors";
 import SubmitButton from "../components/SubmitButton";
-import { updateSignedInUser, userLogout } from "../utils/actions/authActions";
+import {
+  updateSignedInUserData,
+  userLogout,
+} from "../utils/actions/authActions";
 import { update } from "firebase/database";
 import { updateLoggedInUserData } from "../store/authSlice";
 import ProfileImage from "../components/ProfileImage";
@@ -64,7 +67,7 @@ const SettingsScreen = (props) => {
     const updatedValues = formState.inputValues;
     try {
       setIsLoading(true);
-      await updateSignedInUser(userData.userId, updatedValues);
+      await updateSignedInUserData(userData.userId, updatedValues);
       dispatch(updateLoggedInUserData({ newData: updatedValues }));
       setShowSuccessMessage(true);
 
@@ -93,7 +96,11 @@ const SettingsScreen = (props) => {
     <PageContainer styles={styles.container}>
       <PageTitle text="Settings" />
       <ScrollView contentContainerStyle={styles.formContainer}>
-        <ProfileImage size={80} />
+        <ProfileImage
+          size={80}
+          userId={userData.userId}
+          uri={userData.profilePicture}
+        />
         <Input
           id="firstName"
           label="First name"
