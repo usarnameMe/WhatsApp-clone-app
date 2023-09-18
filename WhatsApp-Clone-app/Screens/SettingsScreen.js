@@ -1,11 +1,5 @@
 import React, { useCallback, useReducer, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import PageContainer from "../components/PageContainer";
 import PageTitle from "../components/PageTitle";
 import { Feather, FontAwesome } from "@expo/vector-icons";
@@ -22,7 +16,6 @@ import {
 } from "../utils/actions/authActions";
 import { update } from "firebase/database";
 import { updateLoggedInUserData } from "../store/authSlice";
-import ProfileImage from "../components/ProfileImage";
 
 const SettingsScreen = (props) => {
   const dispatch = useDispatch();
@@ -95,6 +88,7 @@ const SettingsScreen = (props) => {
   return (
     <PageContainer styles={styles.container}>
       <PageTitle text="Settings" />
+<<<<<<< HEAD
       <ScrollView contentContainerStyle={styles.formContainer}>
         <ProfileImage
           size={80}
@@ -168,15 +162,83 @@ const SettingsScreen = (props) => {
               disabled={!formState.formIsValid}
             />
           )
+=======
+      <Input
+        id="firstName"
+        label="First name"
+        icon="user-o"
+        iconPack={FontAwesome}
+        autoCapitalize="none"
+        onInputChanged={inputChangedHandler}
+        errorText={formState.inputValidities["firstName"]}
+        initialValue={userData.firstName}
+      />
+      <Input
+        id="lastName"
+        label="Last name"
+        icon="user-o"
+        iconPack={FontAwesome}
+        autoCapitalize="none"
+        onInputChanged={inputChangedHandler}
+        errorText={formState.inputValidities["lastName"]}
+        initialValue={userData.lastName}
+      />
+      <Input
+        id="email"
+        label="Email"
+        icon="mail"
+        iconPack={Feather}
+        autoCapitalize="none"
+        onInputChanged={inputChangedHandler}
+        keyboardType="email-address"
+        errorText={formState.inputValidities["email"]}
+        initialValue={userData.email}
+      />
+      <Input
+        id="about"
+        label="About"
+        icon="user-o"
+        iconPack={FontAwesome}
+        autoCapitalize="none"
+        onInputChanged={inputChangedHandler}
+        errorText={formState.inputValidities["about"]}
+        initialValue={userData.about}
+      />
+      <View
+        style={{
+          marginTop: 20,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {showSuccessMessage && (
+          <Text style={styles.successMessage}>Saved!</Text>
+>>>>>>> parent of c61c084 (profile picture)
         )}
-
-        <SubmitButton
-          title="Logout"
-          onPress={() => dispatch(userLogout())}
-          style={{ marginTop: 30 }}
-          color={colors.green}
+      </View>
+      {isLoading ? (
+        <ActivityIndicator
+          size={"small"}
+          color={colors.primary}
+          style={{ marginTop: 20 }}
         />
-      </ScrollView>
+      ) : (
+        hasChanges() && (
+          <SubmitButton
+            title="Save"
+            onPress={saveHandler}
+            style={{ marginTop: 30 }}
+            disabled={!formState.formIsValid}
+          />
+        )
+      )}
+
+      <SubmitButton
+        title="Logout"
+        onPress={() => dispatch(userLogout())}
+        style={{ marginTop: 30 }}
+        color={colors.green}
+      />
     </PageContainer>
   );
 };
@@ -191,9 +253,6 @@ const styles = StyleSheet.create({
     color: colors.green,
     fontSize: 20,
     fontWeight: "bold",
-  },
-  formContainer: {
-    alignItems: "center",
   },
 });
 
