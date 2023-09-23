@@ -20,6 +20,7 @@ import { updateSignedInUser, userLogout } from "../utils/actions/authActions";
 import { update } from "firebase/database";
 import { updateLoggedInUserData } from "../store/authSlice";
 import ProfileImage from "../components/ProfileImage";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const SettingsScreen = (props) => {
   const dispatch = useDispatch();
@@ -93,12 +94,20 @@ const SettingsScreen = (props) => {
   return (
     <PageContainer styles={styles.container}>
       <PageTitle text="Settings" />
-      <ScrollView contentContainerStyle={styles.formContainer}>
-        <ProfileImage
-          size={80}
-          userId={userData.userId}
-          uri={userData.profilePicture}
-        />
+
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        contentContainerStyle={styles.formContainer}
+        scrollEnabled={true}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.profileImageContainer}>
+          <ProfileImage
+            size={80}
+            userId={userData.userId}
+            uri={userData.profilePicture}
+          />
+        </View>
         <Input
           id="firstName"
           label="First name"
@@ -174,7 +183,7 @@ const SettingsScreen = (props) => {
           style={{ marginTop: 30 }}
           color={colors.green}
         />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </PageContainer>
   );
 };
