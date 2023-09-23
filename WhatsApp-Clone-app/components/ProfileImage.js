@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import userImage from "../assets/images/userImage.png";
 import colors from "../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
@@ -16,6 +22,7 @@ const ProfileImage = (props) => {
 
   const source = props.uri ? { uri: props.uri } : userImage;
   const [image, setImage] = useState(source);
+  const [isLoading, setIsLoading] = useState(false);
 
   const userId = props.userId;
 
@@ -23,23 +30,39 @@ const ProfileImage = (props) => {
     try {
       const tempUri = await launchImagePicker();
       if (!tempUri) return;
+
+      setIsLoading(true);
       const uploadUrl = await uploadImageAsync(tempUri);
+      setIsLoading(false);
       if (!uploadUrl) throw new Error("Could not upload image");
+
       const newData = { profilePicture: uploadUrl };
       await updateSignedInUser(userId, newData);
+
       dispatch(updateLoggedInUserData({ newData }));
       setImage({ uri: uploadUrl });
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
   return (
     <TouchableOpacity onPress={pickImage}>
-      <Image
-        source={image}
-        style={{ ...styles.image, width: props.size, height: props.size }}
-      />
+      {isLoading ? (
+        <View
+          height={props.size}
+          width={props.width}
+          style={styles.loadingCont}
+        >
+          <ActivityIndicator size={"small"} color={colors.primary} />
+        </View>
+      ) : (
+        <Image
+          source={image}
+          style={{ ...styles.image, width: props.size, height: props.size }}
+        />
+      )}
 
       <View style={styles.pencil}>
         <FontAwesome name="pencil" size={15} color="black" />
@@ -61,6 +84,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightGrey,
     borderRadius: 20,
     padding: 8,
+  },
+  loadingCont: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
