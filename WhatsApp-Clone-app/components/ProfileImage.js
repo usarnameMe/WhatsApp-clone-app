@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import userImage from "../assets/images/userImage.png";
 import colors from "../constants/colors";
 import { FontAwesome } from "@expo/vector-icons";
@@ -12,15 +10,11 @@ import {
 
 const ProfileImage = (props) => {
   const source = props.uri ? { uri: props.uri } : userImage;
-
   const [image, setImage] = useState(source);
-
-  const userId = props.userId;
 
   const pickImage = async () => {
     try {
       const tempUri = await launchImagePicker();
-
       if (!tempUri) return;
       const uploadUrl = await uploadImageAsync(tempUri);
       if (!uploadUrl) throw new Error("Could not upload image");
@@ -33,14 +27,11 @@ const ProfileImage = (props) => {
   return (
     <TouchableOpacity onPress={pickImage}>
       <Image
-        style={{
-          ...styles.image,
-          ...{ width: props.size, height: props.size },
-        }}
         source={image}
+        style={{ ...styles.image, width: props.size, height: props.size }}
       />
 
-      <View style={styles.editIconContainer}>
+      <View style={styles.pencil}>
         <FontAwesome name="pencil" size={15} color="black" />
       </View>
     </TouchableOpacity>
@@ -53,10 +44,10 @@ const styles = StyleSheet.create({
     borderColor: colors.grey,
     borderWidth: 1,
   },
-  editIconContainer: {
+  pencil: {
     position: "absolute",
-    bottom: 0,
-    right: 0,
+    bottom: -5,
+    right: -5,
     backgroundColor: colors.lightGrey,
     borderRadius: 20,
     padding: 8,

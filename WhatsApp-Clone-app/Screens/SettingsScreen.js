@@ -1,5 +1,11 @@
 import React, { useCallback, useReducer, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  ScrollView,
+} from "react-native";
 import PageContainer from "../components/PageContainer";
 import PageTitle from "../components/PageTitle";
 import { Feather, FontAwesome } from "@expo/vector-icons";
@@ -10,12 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { isLoading } from "expo-font";
 import colors from "../constants/colors";
 import SubmitButton from "../components/SubmitButton";
-import {
-  updateSignedInUserData,
-  userLogout,
-} from "../utils/actions/authActions";
+import { updateSignedInUser, userLogout } from "../utils/actions/authActions";
 import { update } from "firebase/database";
 import { updateLoggedInUserData } from "../store/authSlice";
+import ProfileImage from "../components/ProfileImage";
 
 const SettingsScreen = (props) => {
   const dispatch = useDispatch();
@@ -60,7 +64,7 @@ const SettingsScreen = (props) => {
     const updatedValues = formState.inputValues;
     try {
       setIsLoading(true);
-      await updateSignedInUserData(userData.userId, updatedValues);
+      await updateSignedInUser(userData.userId, updatedValues);
       dispatch(updateLoggedInUserData({ newData: updatedValues }));
       setShowSuccessMessage(true);
 
@@ -159,12 +163,13 @@ const SettingsScreen = (props) => {
           )
         )}
 
-      <SubmitButton
-        title="Logout"
-        onPress={() => dispatch(userLogout())}
-        style={{ marginTop: 30 }}
-        color={colors.green}
-      />
+        <SubmitButton
+          title="Logout"
+          onPress={() => dispatch(userLogout())}
+          style={{ marginTop: 30 }}
+          color={colors.green}
+        />
+      </ScrollView>
     </PageContainer>
   );
 };
@@ -179,6 +184,9 @@ const styles = StyleSheet.create({
     color: colors.green,
     fontSize: 20,
     fontWeight: "bold",
+  },
+  formContainer: {
+    alignItems: "center",
   },
 });
 
