@@ -66,6 +66,7 @@ const SettingsScreen = (props) => {
       setIsLoading(true);
       await updateSignedInUser(userData.userId, updatedValues);
       dispatch(updateLoggedInUserData({ newData: updatedValues }));
+
       setShowSuccessMessage(true);
 
       setTimeout(() => {
