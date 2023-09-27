@@ -11,6 +11,7 @@ const NewChatScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState();
   const [noResultsFound, setNoResultsFound] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -25,6 +26,26 @@ const NewChatScreen = (props) => {
     });
   }, []);
 
+  useEffect(() => {
+    const delaySearch = setTimeout(() => {
+      console.log("abc");
+      if (!searchTerm || searchTerm === "") {
+        setUsers();
+        setNoResultsFound(false);
+        return;
+      }
+
+      setIsLoading(true);
+
+      setUsers({});
+      setNoResultsFound(true);
+
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(delaySearch);
+  }, [searchTerm]);
+
   return (
     <PageContainer>
       <View style={styles.searchContainer}>
@@ -33,7 +54,7 @@ const NewChatScreen = (props) => {
         <TextInput
           placeholder="Search"
           style={styles.searchBox}
-          onChange={() => {}}
+          onChangeText={(text) => setSearchTerm(text)}
         />
       </View>
 
@@ -43,20 +64,21 @@ const NewChatScreen = (props) => {
             name="question"
             size={55}
             color={colors.lightGrey}
-            style={styles.noResultIcon}
+            style={styles.noResultsIcon}
           />
-          <Text style={styles.noResultText}>No users found !</Text>
+          <Text style={styles.noResultsText}>No users found!</Text>
         </View>
       )}
+
       {!isLoading && !users && (
         <View style={commonStyles.center}>
           <FontAwesome
             name="users"
             size={55}
             color={colors.lightGrey}
-            style={styles.noResultIcon}
+            style={styles.noResultsIcon}
           />
-          <Text style={styles.noResultText}>
+          <Text style={styles.noResultsText}>
             Enter a name to search for a user!
           </Text>
         </View>
@@ -66,14 +88,9 @@ const NewChatScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   searchContainer: {
-    alignItems: "center",
     flexDirection: "row",
+    alignItems: "center",
     backgroundColor: colors.extraLightGrey,
     height: 30,
     marginVertical: 8,
@@ -86,13 +103,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     width: "100%",
   },
-  noResultIcon: {
+  noResultsIcon: {
     marginBottom: 20,
   },
-  noResultText: {
+  noResultsText: {
     color: colors.textColor,
     fontFamily: "Medium",
-    letterSpacing: 0.7,
+    letterSpacing: 0.3,
   },
 });
 
