@@ -11,6 +11,7 @@ LogBox.ignoreLogs([
   "@firebase/auth: Auth",
   "Possible Unhandled Promise Rejection",
   "AsyncStorage has been extracted",
+  "Sending `onAnimatedValueUpdate` with no listeners registered",
 ]);
 // AsyncStorage.clear();
 

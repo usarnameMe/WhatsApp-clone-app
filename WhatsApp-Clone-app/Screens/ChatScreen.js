@@ -26,12 +26,9 @@ import backgroundImage from "../assets/images/backgroundImg.png";
 const ChatScreen = (props) => {
   const [messageText, setMessageText] = useState("");
 
-  const sendMessage = useCallback(
-    () => {
-      setMessageText("");
-    },
-    { messageText }
-  );
+  const sendMessage = useCallback(() => {
+    setMessageText("");
+  }, [messageText]);
 
   return (
     <SafeAreaView style={styles.container}>

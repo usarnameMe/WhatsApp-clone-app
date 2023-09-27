@@ -13,10 +13,12 @@ export default function TabNavigator() {
         name="Chat"
         component={ChatListScreen}
         options={{
+          headerTitle: "All chats",
+
           tabBarIcon: () => (
             <Ionicons name="chatbubbles-outline" size={24} color="black" />
           ),
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <Tab.Screen
