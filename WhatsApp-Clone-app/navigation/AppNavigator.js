@@ -17,6 +17,8 @@ const AppNavigator = (props) => {
       {isAuth && <MainNavigator />}
       {!isAuth && didTryAutoLogin && <AuthScreen />}
       {!isAuth && !didTryAutoLogin && <StartUpScreen />}
+      {/* <StartUpScreen /> */}
+      {/* <AuthScreen /> */}
     </NavigationContainer>
   );
 };
