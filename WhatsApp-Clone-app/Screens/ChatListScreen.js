@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 const ChatListScreen = (props) => {
   const selectedUser = props.route?.params?.selectedUserId;
+
   const userData = useSelector((state) => state.auth.userData);
 
   useEffect(() => {
@@ -32,10 +33,10 @@ const ChatListScreen = (props) => {
     const chatUsers = [selectedUser, userData.userId];
 
     const navigationProps = {
-      newChatData: { users: [chatUsers] },
+      newChatData: { users: chatUsers },
     };
 
-    props.navigation.navigate("ChatScreen", navigationProps);
+    props.navigation.navigate("NewChatScreen", navigationProps);
   }, [props.route?.params]);
 
   return (

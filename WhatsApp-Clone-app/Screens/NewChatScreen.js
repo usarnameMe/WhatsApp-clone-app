@@ -26,6 +26,7 @@ const NewChatScreen = (props) => {
   const [users, setUsers] = useState();
   const [noResultsFound, setNoResultsFound] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
   const userData = useSelector((state) => state.auth.userData);
 
   useEffect(() => {
@@ -43,7 +44,6 @@ const NewChatScreen = (props) => {
 
   useEffect(() => {
     const delaySearch = setTimeout(async () => {
-      console.log("abc");
       if (!searchTerm || searchTerm === "") {
         setUsers();
         setNoResultsFound(false);
@@ -55,6 +55,7 @@ const NewChatScreen = (props) => {
       const usersResult = await searchUsers(searchTerm);
       delete usersResult[userData.userId];
       setUsers(usersResult);
+
       if (Object.keys(usersResult).length === 0) {
         setNoResultsFound(true);
       } else {
@@ -62,6 +63,7 @@ const NewChatScreen = (props) => {
 
         dispatch(setStoredUsers({ newUsers: usersResult }));
       }
+
       setIsLoading(false);
     }, 500);
 
@@ -69,7 +71,9 @@ const NewChatScreen = (props) => {
   }, [searchTerm]);
 
   const userPressed = (userId) => {
-    props.navigation.navigate("Chat", { selectedUserId: userId });
+    props.navigation.navigate("ChatScreen", {
+      newChatData: { users: [userId, userData.userId] },
+    });
   };
 
   return (

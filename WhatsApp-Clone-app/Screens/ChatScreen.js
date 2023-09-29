@@ -25,27 +25,32 @@ import backgroundImage from "../assets/images/backgroundImg.png";
 import { useSelector } from "react-redux";
 
 const ChatScreen = (props) => {
+  const userData = useSelector((state) => state.auth.userData);
+  const storedUsers = useSelector((state) => state.users.storedUsers);
+
+  const [chatUsers, setChatUsers] = useState([]);
   const [messageText, setMessageText] = useState("");
-  const storedUsers = useSelector((state) => state.auth.userData);
-  const userData = useSelector((state) => state.users.storedUsers);
-  const [chatUsers, setChatUsers] = useState("");
 
   const chatData = props.route?.params?.newChatData;
+
   const getChatTitleFromName = () => {
-    const otherUserId = chatUsers.find((uid) => uid !== storedUsers.userId);
+    const otherUserId = chatUsers.find((uid) => uid !== userData.userId);
     const otherUserData = storedUsers[otherUserId];
+
+    if (!otherUserData) return "Unknown User";
 
     return (
       otherUserData && `${otherUserData.firstName} ${otherUserData.lastName}`
     );
   };
+
   useEffect(() => {
     props.navigation.setOptions({
       headerTitle: getChatTitleFromName(),
     });
-
+    if (!chatData) return;
     setChatUsers(chatData.users);
-  }, [chatUsers]);
+  }, [chatData]);
 
   const sendMessage = useCallback(() => {
     setMessageText("");
