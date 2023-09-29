@@ -22,9 +22,14 @@ const colors = {
 };
 
 import backgroundImage from "../assets/images/backgroundImg.png";
+import { useSelector } from "react-redux";
 
 const ChatScreen = (props) => {
   const [messageText, setMessageText] = useState("");
+  const storedUsers = useSelector((state) => state.users.storedUsers);
+  console.log(storedUsers);
+
+  const chatData = props.route?.params?.newChatData;
 
   const sendMessage = useCallback(() => {
     setMessageText("");
