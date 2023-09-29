@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -26,10 +26,26 @@ import { useSelector } from "react-redux";
 
 const ChatScreen = (props) => {
   const [messageText, setMessageText] = useState("");
-  const storedUsers = useSelector((state) => state.users.storedUsers);
-  console.log(storedUsers);
+  const storedUsers = useSelector((state) => state.auth.userData);
+  const userData = useSelector((state) => state.users.storedUsers);
+  const [chatUsers, setChatUsers] = useState("");
 
   const chatData = props.route?.params?.newChatData;
+  const getChatTitleFromName = () => {
+    const otherUserId = chatUsers.find((uid) => uid !== storedUsers.userId);
+    const otherUserData = storedUsers[otherUserId];
+
+    return (
+      otherUserData && `${otherUserData.firstName} ${otherUserData.lastName}`
+    );
+  };
+  useEffect(() => {
+    props.navigation.setOptions({
+      headerTitle: getChatTitleFromName(),
+    });
+
+    setChatUsers(chatData.users);
+  }, [chatUsers]);
 
   const sendMessage = useCallback(() => {
     setMessageText("");
