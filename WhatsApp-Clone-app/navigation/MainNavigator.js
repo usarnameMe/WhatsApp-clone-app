@@ -4,10 +4,15 @@ import TabNavigator from "./TabNavigator";
 import ChatSettingsScreen from "../Screens/ChatSettingsScreen";
 import ChatScreen from "../Screens/ChatScreen";
 import NewChatScreen from "../Screens/NewChatScreen";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import colors from "../constants/colors";
 
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = () => {
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator>
       <Stack.Group>
@@ -23,8 +28,19 @@ const MainNavigator = () => {
           name="ChatScreen"
           component={ChatScreen}
           options={{
-            headerTitle: "",
             gestureEnabled: false,
+            tabBarIcon: () => (
+              <Ionicons name="chatbubbles-outline" size={24} color="black" />
+            ),
+            headerShown: true,
+            headerLeft: () => (
+              <Ionicons
+                name="arrow-back"
+                size={26}
+                color={colors.blue}
+                onPress={() => navigation.navigate("Home")}
+              />
+            ),
           }}
         />
         <Stack.Screen

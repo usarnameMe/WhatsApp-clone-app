@@ -15,10 +15,10 @@ const userSlice = createSlice({
         const userData = usersArray[i];
         existingUsers[userData.userId] = userData;
       }
+
       state.storedUsers = existingUsers;
     },
   },
 });
-
 export const setStoredUsers = userSlice.actions.setStoredUsers;
 export default userSlice.reducer;

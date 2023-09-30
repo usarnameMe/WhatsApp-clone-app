@@ -10,7 +10,7 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Chat"
+        name="Chats"
         component={ChatListScreen}
         options={{
           headerTitle: "All chats",

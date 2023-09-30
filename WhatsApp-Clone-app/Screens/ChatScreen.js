@@ -23,6 +23,8 @@ const colors = {
 
 import backgroundImage from "../assets/images/backgroundImg.png";
 import { useSelector } from "react-redux";
+import PageContainer from "../components/PageContainer";
+import Bubble from "../components/Buble";
 
 const ChatScreen = (props) => {
   const userData = useSelector((state) => state.auth.userData);
@@ -30,14 +32,13 @@ const ChatScreen = (props) => {
 
   const [chatUsers, setChatUsers] = useState([]);
   const [messageText, setMessageText] = useState("");
+  const [chatId, setChatId] = useState(props.route?.params?.chatId);
 
   const chatData = props.route?.params?.newChatData;
 
   const getChatTitleFromName = () => {
     const otherUserId = chatUsers.find((uid) => uid !== userData.userId);
     const otherUserData = storedUsers[otherUserId];
-
-    if (!otherUserData) return "Unknown User";
 
     return (
       otherUserData && `${otherUserData.firstName} ${otherUserData.lastName}`
@@ -48,56 +49,63 @@ const ChatScreen = (props) => {
     props.navigation.setOptions({
       headerTitle: getChatTitleFromName(),
     });
-    if (!chatData) return;
     setChatUsers(chatData.users);
-  }, [chatData]);
+  }, [chatUsers]);
 
   const sendMessage = useCallback(() => {
     setMessageText("");
   }, [messageText]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          keyboardVerticalOffset={100}
+    <SafeAreaView edges={["right", "left", "bottom"]} style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.screen}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={100}
+      >
+        <ImageBackground
+          source={backgroundImage}
+          style={styles.backgroundImage}
         >
-          <View style={styles.inputContainer}>
+          <PageContainer style={{ backgroundColor: "transparent" }}>
+            {!chatId && <Bubble text="This is a new chat. Say hi!" />}
+          </PageContainer>
+        </ImageBackground>
+
+        <View style={styles.inputContainer}>
+          <TouchableOpacity
+            style={styles.mediaButton}
+            onPress={() => console.log("Pressed!")}
+          >
+            <Feather name="plus" size={24} color={colors.blue} />
+          </TouchableOpacity>
+
+          <TextInput
+            style={styles.textbox}
+            value={messageText}
+            onChangeText={(text) => setMessageText(text)}
+            onSubmitEditing={sendMessage}
+          />
+
+          {messageText === "" && (
             <TouchableOpacity
               style={styles.mediaButton}
               onPress={() => console.log("Pressed!")}
             >
-              <Feather name="plus" size={wp("6%")} color={colors.blue} />
+              <Feather name="camera" size={24} color={colors.blue} />
             </TouchableOpacity>
+          )}
 
-            <TextInput
-              style={styles.textbox}
-              value={messageText}
-              onSubmitEditing={sendMessage}
-              onChangeText={(text) => setMessageText(text)}
-            />
-
-            {messageText === "" && (
-              <TouchableOpacity
-                style={styles.mediaButton}
-                onPress={() => console.log("Pressed!")}
-              >
-                <Feather name="camera" size={wp("6%")} color={colors.blue} />
-              </TouchableOpacity>
-            )}
-
-            {messageText !== "" && (
-              <TouchableOpacity
-                style={{ ...styles.mediaButton, ...styles.sendButton }}
-                onPress={sendMessage}
-              >
-                <Feather name="send" size={wp("6%")} color={colors.blue} />
-              </TouchableOpacity>
-            )}
-          </View>
-        </KeyboardAvoidingView>
-      </ImageBackground>
+          {messageText !== "" && (
+            <TouchableOpacity
+              style={{ ...styles.mediaButton, ...styles.sendButton }}
+              onPress={sendMessage}
+            >
+              <Feather name="send" size={20} color={"white"} />
+            </TouchableOpacity>
+          )}
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -105,35 +113,37 @@ const ChatScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
+  },
+  screen: {
+    flex: 1,
   },
   backgroundImage: {
     flex: 1,
-    justifyContent: "flex-end",
   },
   inputContainer: {
     flexDirection: "row",
-    paddingVertical: hp("1%"),
-    paddingHorizontal: wp("2%"),
-    height: hp("7%"),
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    height: 50,
   },
   textbox: {
     flex: 1,
     borderWidth: 1,
     borderRadius: 50,
     borderColor: colors.lightGrey,
-    marginHorizontal: wp("1%"),
-    paddingHorizontal: wp("2%"),
+    marginHorizontal: 15,
+    paddingHorizontal: 12,
   },
   mediaButton: {
     alignItems: "center",
     justifyContent: "center",
-    width: wp("10%"),
+    width: 35,
   },
   sendButton: {
+    backgroundColor: colors.blue,
     borderRadius: 50,
     padding: 8,
-    width: 50,
-    height: 50,
   },
 });
 

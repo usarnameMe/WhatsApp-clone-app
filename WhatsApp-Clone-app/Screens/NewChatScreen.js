@@ -38,7 +38,7 @@ const NewChatScreen = (props) => {
           </HeaderButtons>
         );
       },
-      headerTitle: "New chat",
+      headerTitle: "Search user",
     });
   }, []);
 
@@ -71,9 +71,16 @@ const NewChatScreen = (props) => {
   }, [searchTerm]);
 
   const userPressed = (userId) => {
-    props.navigation.navigate("ChatScreen", {
-      newChatData: { users: [userId, userData.userId] },
+    props.navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: "ChatScreen",
+          params: { newChatData: { users: [userId, userData.userId] } },
+        },
+      ],
     });
+    console.log("User Pressed!!!!!!!!!!!!!!!!");
   };
 
   return (
