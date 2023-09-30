@@ -25,6 +25,8 @@ import backgroundImage from "../assets/images/backgroundImg.png";
 import { useSelector } from "react-redux";
 import PageContainer from "../components/PageContainer";
 import Bubble from "../components/Buble";
+import { createChat } from "../utils/actions/chatActions";
+import { async } from "validate.js";
 
 const ChatScreen = (props) => {
   const userData = useSelector((state) => state.auth.userData);
@@ -52,9 +54,18 @@ const ChatScreen = (props) => {
     setChatUsers(chatData.users);
   }, [chatUsers]);
 
-  const sendMessage = useCallback(() => {
+  const sendMessage = useCallback(async () => {
+    try {
+      let id = chatId;
+      if (!id) {
+        // No chat Id. Create the chat
+        id = await createChat(userData.userId, props.route.params.newChatData);
+        setChatId(id);
+      }
+    } catch (error) {}
+
     setMessageText("");
-  }, [messageText]);
+  }, [messageText, chatId]);
 
   return (
     <SafeAreaView edges={["right", "left", "bottom"]} style={styles.container}>
@@ -68,7 +79,9 @@ const ChatScreen = (props) => {
           style={styles.backgroundImage}
         >
           <PageContainer style={{ backgroundColor: "transparent" }}>
-            {!chatId && <Bubble text="This is a new chat. Say hi!" />}
+            {!chatId && (
+              <Bubble text="This is a new chat. Say hi!" type="system" />
+            )}
           </PageContainer>
         </ImageBackground>
 

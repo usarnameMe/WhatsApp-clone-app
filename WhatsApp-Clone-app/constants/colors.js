@@ -9,4 +9,5 @@ export default {
   red: "#9b2226",
   green: "#3a5a40",
   darkGreen: "#008069",
+  beige: "#FEF5C3",
 };
