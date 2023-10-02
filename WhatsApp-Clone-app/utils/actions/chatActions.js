@@ -1,5 +1,5 @@
 import { child, getDatabase, push, ref } from "firebase/database";
-import { getFirebaseApp } from "../firebaseHelper";
+import getFirebaseApp from "../firebaseHelper";
 
 export const createChat = async (loggedInUserId, chatData) => {
   const newChatData = {

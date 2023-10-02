@@ -3,30 +3,22 @@ import {
   View,
   Text,
   StyleSheet,
+  Button,
   ImageBackground,
   TextInput,
-  SafeAreaView,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-
-const colors = {
-  blue: "#007bff",
-  lightGrey: "#ccc",
-};
 
 import backgroundImage from "../assets/images/backgroundImg.png";
+import colors from "../constants/colors";
 import { useSelector } from "react-redux";
 import PageContainer from "../components/PageContainer";
 import Bubble from "../components/Buble";
 import { createChat } from "../utils/actions/chatActions";
-import { async } from "validate.js";
 
 const ChatScreen = (props) => {
   const userData = useSelector((state) => state.auth.userData);
@@ -62,7 +54,9 @@ const ChatScreen = (props) => {
         id = await createChat(userData.userId, props.route.params.newChatData);
         setChatId(id);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error while creating chat:", error);
+    }
 
     setMessageText("");
   }, [messageText, chatId]);

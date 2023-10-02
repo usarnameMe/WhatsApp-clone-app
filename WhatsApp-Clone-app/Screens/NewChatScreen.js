@@ -80,7 +80,6 @@ const NewChatScreen = (props) => {
         },
       ],
     });
-    console.log("User Pressed!!!!!!!!!!!!!!!!");
   };
 
   return (
