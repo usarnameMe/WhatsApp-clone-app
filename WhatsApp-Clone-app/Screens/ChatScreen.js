@@ -23,6 +23,7 @@ import { createChat } from "../utils/actions/chatActions";
 const ChatScreen = (props) => {
   const userData = useSelector((state) => state.auth.userData);
   const storedUsers = useSelector((state) => state.users.storedUsers);
+  console.log(storedUsers);
 
   const [chatUsers, setChatUsers] = useState([]);
   const [messageText, setMessageText] = useState("");
@@ -43,7 +44,9 @@ const ChatScreen = (props) => {
     props.navigation.setOptions({
       headerTitle: getChatTitleFromName(),
     });
-    setChatUsers(chatData.users);
+    if (chatData && chatData.users) {
+      setChatUsers(chatData.users);
+    }
   }, [chatUsers]);
 
   const sendMessage = useCallback(async () => {

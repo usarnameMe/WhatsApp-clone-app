@@ -78,8 +78,12 @@ const NewChatScreen = (props) => {
           name: "ChatScreen",
           params: { newChatData: { users: [userId, userData.userId] } },
         },
+        // { selectedUserId: userId },
       ],
     });
+    // props.navigation.navigate("ChatScreen", {
+    //   selectedUserId: userId,
+    // });
   };
 
   return (
