@@ -22,6 +22,7 @@ const MainNavigator = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const userData = useSelector((state) => state.auth.userData);
   const storedUsers = useSelector((state) => state.users.storedUsers);
+  console.log("Storeed USERSS!!!!!", storedUsers);
 
   useEffect(() => {
     console.log("Subscribing to firebase listeners");
@@ -41,7 +42,7 @@ const MainNavigator = (props) => {
       for (let i = 0; i < chatIds.length; i++) {
         const chatId = chatIds[i];
         const chatRef = child(dbRef, `chats/${chatId}`);
-        refs.push(chatRef);
+        refs.push(storedUsers);
 
         onValue(chatRef, (chatSnapshot) => {
           chatsFoundCount++;
@@ -71,13 +72,13 @@ const MainNavigator = (props) => {
   }, []);
 
   const navigation = useNavigation();
-  if (isLoading) {
-    return (
-      <View style={commonStyles.center}>
-        <ActivityIndicator size={"large"} color={colors.primary} />
-      </View>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <View style={commonStyles.center}>
+  //       <ActivityIndicator size={"large"} color={colors.primary} />
+  //     </View>
+  //   );
+  // }
 
   return (
     <Stack.Navigator>
