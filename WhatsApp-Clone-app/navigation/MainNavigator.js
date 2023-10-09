@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNavigator from "./TabNavigator";
 import ChatSettingsScreen from "../Screens/ChatSettingsScreen";
@@ -11,12 +11,15 @@ import { useDispatch, useSelector } from "react-redux";
 import getFirebaseApp from "../utils/firebaseHelper";
 import { child, getDatabase, off, onValue, ref } from "firebase/database";
 import { setChatsData } from "../store/chatSlice";
+import { ActivityIndicator, View } from "react-native";
+import commonStyles from "../constants/commonStyles";
 
 const Stack = createNativeStackNavigator();
 
 const MainNavigator = (props) => {
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = useState(true);
   const userData = useSelector((state) => state.auth.userData);
   const storedUsers = useSelector((state) => state.users.storedUsers);
 
@@ -47,13 +50,17 @@ const MainNavigator = (props) => {
           if (data) {
             data.key = chatSnapshot.key;
 
-            chatsData[chatsData.key] = data;
+            chatsData[chatSnapshot.key] = data;
           }
 
           if (chatsFoundCount >= chatId.length) {
             dispatch(setChatsData({ chatsData }));
+            setIsLoading(false);
           }
         });
+        if (chatsFoundCount == 0) {
+          setIsLoading(false);
+        }
       }
     });
 
@@ -64,6 +71,13 @@ const MainNavigator = (props) => {
   }, []);
 
   const navigation = useNavigation();
+  if (isLoading) {
+    return (
+      <View style={commonStyles.center}>
+        <ActivityIndicator size={"large"} color={colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <Stack.Navigator>
