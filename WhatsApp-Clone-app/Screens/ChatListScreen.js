@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Button, FlatList } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import { useSelector } from "react-redux";
-import { selectUserChats } from "../selectors/chatSelector";
 
 const ChatListScreen = (props) => {
   const selectedUser = props.route?.params?.selectedUserId;
 
   const userData = useSelector((state) => state.auth.userData);
-  const userChats = useSelector(selectUserChats);
-  console.log("USER CHATSS >>>>>>>>>>>>>", userChats);
+  const userChats = useSelector((state) => state.chats.chatsData);
+  console.log(userChats);
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -43,18 +42,14 @@ const ChatListScreen = (props) => {
   }, [props.route?.params]);
 
   return (
-    <FlatList
-      data={userChats}
-      renderItem={(itemData) => {
-        const chatData = itemData.item;
+    <View style={styles.container}>
+      <Text>Chat list screen</Text>
 
-        const otherUserId = chatData.users.find(
-          (uid) => uid !== userData.userId
-        );
-
-        return <Text>{otherUserId}</Text>;
-      }}
-    />
+      <Button
+        title="Go to chat screen"
+        onPress={() => props.navigation.navigate("ChatScreen")}
+      />
+    </View>
   );
 };
 

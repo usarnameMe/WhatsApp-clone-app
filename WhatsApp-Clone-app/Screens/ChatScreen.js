@@ -23,7 +23,7 @@ import { createChat } from "../utils/actions/chatActions";
 const ChatScreen = (props) => {
   const userData = useSelector((state) => state.auth.userData);
   const storedUsers = useSelector((state) => state.users.storedUsers);
-  // console.log(storedUsers);
+  console.log(storedUsers);
 
   const [chatUsers, setChatUsers] = useState([]);
   const [messageText, setMessageText] = useState("");
